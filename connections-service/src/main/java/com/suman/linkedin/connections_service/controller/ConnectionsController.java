@@ -27,9 +27,9 @@ public class ConnectionsController {
         return ResponseEntity.status(HttpStatus.OK).body("Connect");
     }
 
-    @GetMapping("/{userId}/first-connections")
-    public ResponseEntity<List<Person>> getFirstConnections(@PathVariable Long userId){
-        List<Person> firstDegreeConnections = connectionsService.getFirstDegreeConnections(userId);
+    @GetMapping("/first-degree")
+    public ResponseEntity<List<Person>> getFirstConnections(){
+        List<Person> firstDegreeConnections = connectionsService.getFirstDegreeConnections();
         return ResponseEntity.status(HttpStatus.OK).body(firstDegreeConnections);
     }
 

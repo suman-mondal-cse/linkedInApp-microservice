@@ -9,15 +9,8 @@ spring:
   cloud:
     gateway:
       server:
-        webmvc:
+        webflux:
           routes:
-            - id: posts-service
-              uri: lb://POSTS-SERVICE
-              predicates:
-                - Path=/api/v1/posts/**
-              filters:
-                - StripPrefix=2
-
             - id: user-service
               uri: lb://USER-SERVICE
               predicates:
@@ -26,12 +19,22 @@ spring:
                 - StripPrefix=2
 
 
+            - id: posts-service
+              uri: lb://POSTS-SERVICE
+              predicates:
+                - Path=/api/v1/posts/**
+              filters:
+                - StripPrefix=2
+                - name: AuthenticationFilter
+
+
             - id: connections-service
               uri: lb://CONNECTIONS-SERVICE
               predicates:
                 - Path=/api/v1/connections/**
               filters:
                 - StripPrefix=2
+                - name: AuthenticationFilter
 
 
 eureka:
@@ -49,3 +52,5 @@ logging:
   level:
     org.springframework.cloud.gateway: DEBUG
     org.springframework.cloud.loadbalancer: DEBUG
+jwt:
+  secretKey: bjdh898ey783yendwei87398eu3jhey327ye398euy3yfge4tterg34

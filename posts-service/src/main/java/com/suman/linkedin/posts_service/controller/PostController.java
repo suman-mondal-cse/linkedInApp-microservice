@@ -5,12 +5,14 @@ import com.suman.linkedin.posts_service.dto.PostDto;
 import com.suman.linkedin.posts_service.service.PostsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/core")
 @RequiredArgsConstructor
@@ -25,7 +27,9 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostDto> getPost(@PathVariable Long postId){
+    public ResponseEntity<PostDto> getPost(@PathVariable Long postId, HttpServletRequest httpServletRequest){
+        String userId = httpServletRequest.getHeader("X-User-Id");
+        log.info("UserId from HttpServletRequest is: {}",userId);
         PostDto postDto = postsService.getPostById(postId);
         return ResponseEntity.status(HttpStatus.OK).body(postDto);
     }
